@@ -1,0 +1,27 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Đăng ký - CoffeeShop</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+    <div class="login-container">
+        <h2>Đăng ký tài khoản</h2>
+        <form asp-action="Register" method="post">
+            <input type="text" name="FullName" placeholder="Họ và tên" required />
+            <input type="text" name="Username" placeholder="Tên đăng nhập" required />
+            <input type="email" name="Email" placeholder="Email" required />
+            <input type="password" name="Password" placeholder="Mật khẩu" required />
+            <input type="password" name="ConfirmPassword" placeholder="Nhập lại mật khẩu" required />
+            <button type="submit">Đăng ký</button>
+            <p class="text-center mt-3">
+                Đã có tài khoản? <a href="/Account/Login">Đăng nhập</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+@model List<CoffeeShop.Models.Category>
+@{
+    ViewData["Title"] = "Danh sách danh mục";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Danh sách danh mục</h2>
+
+<a class="btn btn-success mb-3" href="/Category/Create">
+    <i class="fas fa-plus"></i> Thêm danh mục
+</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>STT</th>
+            <th>Tên danh mục</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@(i + 1)</td>
+                <td>@Model[i].Name</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="/Category/Edit/@Model[i].Id">
+                        <i class="fas fa-edit"></i> Sửa
+                    </a>
+                    <a class="btn btn-sm btn-danger" href="/Category/Delete/@Model[i].Id"
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">
+                        <i class="fas fa-trash-alt"></i> Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,28 @@
+@model IEnumerable<CoffeeShop.Models.Product>
+@{
+    ViewData["Title"] = "Sản phẩm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Danh sách sản phẩm</h2>
+
+<a class="btn btn-primary" href="/AdminProduct/Create">+ Thêm sản phẩm</a>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Giá</th>
+            <th>Danh mục</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("N0") đ</td>
+                <td>@product.Category?.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

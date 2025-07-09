@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using CoffeeShop.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CoffeeShop.Controllers.Admin
+namespace CoffeeShop.Controllers
 {
-    [Area("Admin")]
     public class AdminProductController : Controller
     {
         private readonly CoffeeShopDbContext _context;
@@ -13,13 +13,21 @@ namespace CoffeeShop.Controllers.Admin
             _context = context;
         }
 
-        // GET: /Admin/AdminProduct/Create
-        public IActionResult Create()
+        // GET: /AdminProduct
+        public IActionResult Index()
         {
-            return View();
+            var products = _context.Products.ToList();
+            return View("/Views/Admin/AdminProduct/Index.cshtml", products);
         }
 
-        // POST: /Admin/AdminProduct/Create
+        // GET: /AdminProduct/Create
+        public IActionResult Create()
+        {
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
+            return View("/Views/Admin/AdminProduct/Create.cshtml");
+        }
+
+        // POST: /AdminProduct/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Product product)
@@ -29,9 +37,11 @@ namespace CoffeeShop.Controllers.Admin
                 _context.Products.Add(product);
                 _context.SaveChanges();
                 TempData["Success"] = "Thêm sản phẩm thành công!";
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
-            return View(product);
+
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            return View("/Views/Admin/AdminProduct/Create.cshtml", product);
         }
     }
 }

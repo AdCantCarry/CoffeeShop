@@ -1,34 +1,113 @@
 @{
-    var username = Context.Session.GetString("Username");
     Layout = null;
+    var username = Context.Session.GetString("Username");
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - @ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/admin.css" />
+    <title>@ViewData["Title"] - Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 80px;
+            background-color: #343a40;
+            transition: width 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        .sidebar:hover {
+            width: 220px;
+        }
+
+        .sidebar .nav-link {
+            color: #ccc;
+            padding: 15px 20px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+            color: white;
+        }
+
+        .sidebar i {
+            min-width: 25px;
+            margin-right: 15px;
+            text-align: center;
+        }
+
+        .sidebar span {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar:hover span {
+            opacity: 1;
+        }
+
+        .main-content {
+            margin-left: 80px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+
+        .sidebar:hover ~ .main-content {
+            margin-left: 220px;
+        }
+
+        .admin-header {
+            background-color: #fff;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-    <header class="admin-header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <h1>Admin Dashboard</h1>
-                <nav>
-                    <a href="/AdminDashboard">Dashboard</a>
-                    <a href="/Admin/Users">Users</a>
-                </nav>
-            </div>
-            <div class="text-end">
-                👋 Chào, <strong>@username</strong> |
-                <a href="/Account/Logout" class="btn btn-sm btn-outline-light">Đăng xuất</a>
-            </div>
-        </div>
-    </header>
 
-    <main class="admin-main">
-        @RenderBody()
-    </main>
+    <!-- Sidebar -->
+   <!-- Sidebar -->
+<div class="sidebar d-flex flex-column">
+    <a class="nav-link" href="/AdminDashboard/Index"><i class="fas fa-tachometer-alt"></i><span>Bảng điều khiển</span></a>
+    <a class="nav-link" href="/Users"><i class="fas fa-users"></i><span>Quản lý người dùng</span></a>
+    <a class="nav-link" href="/AdminProduct/Index"><i class="fas fa-boxes"></i><span>Sản phẩm</span></a>
+    <a class="nav-link" href="/Category/Index"><i class="fas fa-boxes"></i><span>Loại Sản phẩm</span></a>
+    <a class="nav-link" href="/Orders"><i class="fas fa-receipt"></i><span>Đơn hàng</span></a>
+    <a class="nav-link" href="/Account/Logout"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
+</div>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="admin-header">
+            <h4>@ViewData["Title"]</h4>
+            <div>👤 @username</div>
+        </div>
+        <div class="content-body mt-4">
+           @RenderSection("Scripts", required: false)
+            @RenderBody()   
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
