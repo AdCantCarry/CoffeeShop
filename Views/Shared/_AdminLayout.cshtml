@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+    <header class="admin-header">
+        <div class="container">
+            <h1>Admin Dashboard</h1>
+            <nav>
+                <a href="/Admin/Dashboard">Dashboard</a>
+                <a href="/Admin/Users">Users</a>
+                <a href="/Auth/Logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+    <main class="admin-main">
+        @RenderBody()
+    </main>
+</body>
+</html>

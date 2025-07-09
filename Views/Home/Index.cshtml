@@ -1,8 +1,34 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero section -->
+<section class="hero text-center py-5 text-white" style="background-image: url('/images/coffee-bg.jpg'); background-size: cover;">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Chào mừng bạn đến với CoffeeShop!</h1>
+        <p class="lead">Khám phá hương vị cà phê đậm đà, đúng gu của bạn.</p>
+        <a href="/Product" class="btn btn-primary btn-lg">Mua ngay</a>
+    </div>
+</section>
+
+<!-- Product section -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Sản phẩm nổi bật</h2>
+    <div class="row">
+        @foreach (var item in Model.Products)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Price.ToString("N0") đ</p>
+                        <a href="/Product/Details/@item.Id" class="btn btn-outline-primary">Chi tiết</a>
+                        <a href="/Cart/Add/@item.Id" class="btn btn-primary float-end">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
