@@ -1,6 +1,8 @@
 ﻿@{
     Layout = null;
+    var username = Context.Session.GetString("Username");
 }
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -15,8 +17,10 @@
     <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold text-brown" href="/">☕ CoffeeShop</a>
-            <button class="navbar-toggler" type="button" ...></button>
-            <div class="collapse navbar-collapse">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="/">Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Product">Sản phẩm</a></li>
@@ -24,8 +28,15 @@
                     <li class="nav-item"><a class="nav-link" href="/Contact">Liên hệ</a></li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item me-2">👤 @User.Identity.Name</li>
-                    <li class="nav-item"><a class="btn btn-outline-dark" href="/Account/Logout">Đăng xuất</a></li>
+                    @if (!string.IsNullOrEmpty(username))
+                    {
+                        <li class="nav-item me-2">👤 Chào, <strong>@username</strong></li>
+                        <li class="nav-item"><a class="btn btn-outline-dark" href="/Account/Logout">Đăng xuất</a></li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a class="btn btn-outline-primary" href="/Account/Login">Đăng nhập</a></li>
+                    }
                 </ul>
             </div>
         </div>
@@ -37,7 +48,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
         <div class="container">
             <p>© 2025 CoffeeShop. Đã đăng ký bản quyền.</p>
         </div>

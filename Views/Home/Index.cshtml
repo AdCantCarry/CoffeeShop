@@ -1,4 +1,6 @@
-﻿@{
+﻿
+@model CoffeeShop.Models.HomeViewModel
+@{
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -15,20 +17,30 @@
 <!-- Product section -->
 <div class="container my-5">
     <h2 class="text-center mb-4">Sản phẩm nổi bật</h2>
-    <div class="row">
-        @foreach (var item in Model.Products)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow">
-                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">@item.Price.ToString("N0") đ</p>
-                        <a href="/Product/Details/@item.Id" class="btn btn-outline-primary">Chi tiết</a>
-                        <a href="/Cart/Add/@item.Id" class="btn btn-primary float-end">Mua ngay</a>
+
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        <div class="row">
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow">
+                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">@item.Price.ToString("N0") đ</p>
+                            <a href="/Product/Details/@item.Id" class="btn btn-outline-primary">Chi tiết</a>
+                            <a href="/Cart/Add/@item.Id" class="btn btn-primary float-end">Mua ngay</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            Hiện tại chưa có sản phẩm nào được hiển thị.
+        </div>
+    }
 </div>

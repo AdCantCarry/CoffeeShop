@@ -15,6 +15,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
+app.UseSession(); // phải có
+app.UseMiddleware<CoffeeShop.Middlewares.AuthRedirectMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

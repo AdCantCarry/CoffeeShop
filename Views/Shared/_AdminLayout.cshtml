@@ -1,3 +1,8 @@
+@{
+    var username = Context.Session.GetString("Username");
+    Layout = null;
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +12,21 @@
 </head>
 <body>
     <header class="admin-header">
-        <div class="container">
-            <h1>Admin Dashboard</h1>
-            <nav>
-                <a href="/Admin/Dashboard">Dashboard</a>
-                <a href="/Admin/Users">Users</a>
-                <a href="/Auth/Logout">Logout</a>
-            </nav>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <nav>
+                    <a href="/AdminDashboard">Dashboard</a>
+                    <a href="/Admin/Users">Users</a>
+                </nav>
+            </div>
+            <div class="text-end">
+                👋 Chào, <strong>@username</strong> |
+                <a href="/Account/Logout" class="btn btn-sm btn-outline-light">Đăng xuất</a>
+            </div>
         </div>
     </header>
+
     <main class="admin-main">
         @RenderBody()
     </main>
