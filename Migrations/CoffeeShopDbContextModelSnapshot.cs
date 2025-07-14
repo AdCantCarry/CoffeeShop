@@ -358,15 +358,19 @@ namespace CoffeeShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -386,35 +390,18 @@ namespace CoffeeShop.Migrations
                     b.Property<int?>("DiscountId1")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProductId1")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId", "DiscountId");
 
                     b.HasIndex("DiscountId");
 
                     b.HasIndex("DiscountId1");
 
+                    b.HasIndex("ProductId1");
+
                     b.ToTable("ProductDiscounts");
-                });
-
-            modelBuilder.Entity("CoffeeShop.Models.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductImages");
                 });
 
             modelBuilder.Entity("CoffeeShop.Models.ProductTopping", b =>
@@ -639,18 +626,11 @@ namespace CoffeeShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CoffeeShop.Models.Product", null)
+                        .WithMany("ProductDiscounts")
+                        .HasForeignKey("ProductId1");
+
                     b.Navigation("Discount");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("CoffeeShop.Models.ProductImage", b =>
-                {
-                    b.HasOne("CoffeeShop.Models.Product", "Product")
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Product");
                 });
@@ -714,7 +694,7 @@ namespace CoffeeShop.Migrations
 
             modelBuilder.Entity("CoffeeShop.Models.Product", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("ProductDiscounts");
 
                     b.Navigation("ProductToppings");
                 });

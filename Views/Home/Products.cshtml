@@ -1,0 +1,25 @@
+@model List<CoffeeShop.Models.Product>
+@{
+    ViewData["Title"] = "Tất cả sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Tất cả sản phẩm</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Price.ToString("N0") đ</p>
+                        <a href="/Home/Details/@item.Id" class="btn btn-outline-primary">Chi tiết</a>
+                        <a href="/Cart/Add/@item.Id" class="btn btn-primary float-end">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

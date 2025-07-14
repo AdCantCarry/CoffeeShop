@@ -5,6 +5,7 @@
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - CoffeeShop</title>
@@ -70,6 +71,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="navbar navbar-expand-lg shadow-sm">
@@ -80,12 +82,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Product">Sản phẩm</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Cart">Giỏ hàng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Contact">Liên hệ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Home/Index">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Home/Products">Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Home/Contact">Liên hệ</a></li>
                 </ul>
-                <ul class="navbar-nav">
+
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item position-relative me-3">
+                        <a class="nav-link" href="/Cart/Index" title="Giỏ hàng">
+                            🛒
+                            <span id="cart-count"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                style="display: none;">
+                                0
+                            </span>
+                        </a>
+                    </li>
                     @if (!string.IsNullOrEmpty(username))
                     {
                         <li class="nav-item me-2 d-flex align-items-center">👤 <strong class="ms-1">@username</strong></li>
@@ -96,6 +108,7 @@
                         <li class="nav-item"><a class="btn btn-outline-primary" href="/Account/Login">Đăng nhập</a></li>
                     }
                 </ul>
+
             </div>
         </div>
     </header>
@@ -111,7 +124,23 @@
             <p>© 2025 CoffeeShop. Đã đăng ký bản quyền.</p>
         </div>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/Cart/CartCount")
+                .then(response => response.json())
+                .then(count => {
+                    const cartBadge = document.getElementById("cart-count");
+                    if (count > 0) {
+                        cartBadge.textContent = count;
+                        cartBadge.style.display = "inline-block";
+                    } else {
+                        cartBadge.style.display = "none";
+                    }
+                });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

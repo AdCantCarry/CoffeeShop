@@ -1,36 +1,46 @@
-﻿
-@model CoffeeShop.Models.HomeViewModel
+﻿@model CoffeeShop.Models.HomeViewModel
 @{
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Hero section -->
-<section class="hero text-center py-5 text-white" style="background-image: url('/images/coffee-bg.jpg'); background-size: cover;">
+<!-- Hero -->
+<section class="hero text-center py-5 text-white"
+    style="background-image: url('/images/coffee-bg.jpg'); background-size: cover; background-position: center;">
     <div class="container">
         <h1 class="display-4 fw-bold">Chào mừng bạn đến với CoffeeShop!</h1>
         <p class="lead">Khám phá hương vị cà phê đậm đà, đúng gu của bạn.</p>
-        <a href="/Product" class="btn btn-primary btn-lg">Mua ngay</a>
+        <a href="/Home/Products" class="btn btn-light btn-lg mt-3">Xem tất cả sản phẩm</a>
     </div>
 </section>
 
-<!-- Product section -->
+<!-- Featured Products -->
 <div class="container my-5">
     <h2 class="text-center mb-4">Sản phẩm nổi bật</h2>
 
     @if (Model.Products != null && Model.Products.Any())
     {
-        <div class="row">
+        <div class="row g-4">
             @foreach (var item in Model.Products)
             {
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow">
-                       <img src="@item.Images?.FirstOrDefault()?.ImageUrl" class="card-img-top" alt="@item.Name">
-                        <div class="card-body">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <a href="/Home/Details/@item.Id">
+                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/images/default-coffee.jpg" : item.ImageUrl)"
+                                class="card-img-top" alt="@item.Name" style="height:250px; object-fit:cover;" />
+                        </a>
+                        <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@item.Name</h5>
-                            <p class="card-text">@item.Price.ToString("N0") đ</p>
-                            <a href="/Product/Details/@item.Id" class="btn btn-outline-primary">Chi tiết</a>
-                            <a href="/Cart/Add/@item.Id" class="btn btn-primary float-end">Mua ngay</a>
+                            <p class="card-text text-danger fw-semibold">@item.Price.ToString("N0") đ</p>
+
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a href="/Home/Details/@item.Id" class="btn btn-outline-secondary btn-sm">Chi tiết</a>
+                               <form method="post" action="/Cart/BuyNow">
+                                <input type="hidden" name="productId" value="@item.Id" />
+                                <input type="hidden" name="quantity" value="1" />
+                                <button type="submit" class="btn btn-primary btn-sm">Mua ngay</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,7 +49,7 @@
     }
     else
     {
-        <div class="alert alert-warning text-center" role="alert">
+        <div class="alert alert-warning text-center mt-4" role="alert">
             Hiện tại chưa có sản phẩm nào được hiển thị.
         </div>
     }

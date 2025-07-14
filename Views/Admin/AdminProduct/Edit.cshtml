@@ -1,0 +1,57 @@
+@model CoffeeShop.Models.ViewModels.ProductCreateViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Cập nhật sản phẩm";
+}
+
+<h2>Cập nhật sản phẩm</h2>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" enctype="multipart/form-data" method="post">
+    <div class="form-group">
+        <label>Tên sản phẩm</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Mô tả</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Giá</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Số lượng</label>
+        <input asp-for="Quantity" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Danh mục</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.AllCategories, "Id", "Name", Model.CategoryId))">
+            <option value="">-- Chọn danh mục --</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Ảnh hiện tại:</label>
+        @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+        {
+            <img src="@Model.ExistingImageUrl" style="max-height:100px" />
+        }
+    </div>
+    <div class="form-group">
+        <label>Thay ảnh đại diện</label>
+        <input asp-for="ImageFiles" type="file" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Topping đã chọn</label>
+        @foreach (var topping in Model.AllToppings)
+        {
+            <div class="form-check">
+                <input type="checkbox" name="SelectedToppingIds" value="@topping.Id"
+                       class="form-check-input"
+                       @(Model.SelectedToppingIds.Contains(topping.Id) ? "checked" : "") />
+                <label class="form-check-label">@topping.Name - @topping.Price.ToString("N0")đ</label>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

@@ -137,3 +137,7 @@ C:\Users\Acer\CoffeeShop\CoffeeShop\obj\Debug\net8.0\refint\CoffeeShop.dll
 C:\Users\Acer\CoffeeShop\CoffeeShop\obj\Debug\net8.0\CoffeeShop.pdb
 C:\Users\Acer\CoffeeShop\CoffeeShop\obj\Debug\net8.0\CoffeeShop.genruntimeconfig.cache
 C:\Users\Acer\CoffeeShop\CoffeeShop\obj\Debug\net8.0\ref\CoffeeShop.dll
+C:\Users\Acer\CoffeeShop\CoffeeShop\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Acer\CoffeeShop\CoffeeShop\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Acer\CoffeeShop\CoffeeShop\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Acer\CoffeeShop\CoffeeShop\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

@@ -16,7 +16,6 @@ namespace CoffeeShop.Models
         // Sản phẩm & danh mục
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Category> Categories => Set<Category>();
-        public DbSet<ProductImage> ProductImages => Set<ProductImage>();
         public DbSet<Topping> Toppings => Set<Topping>();
         public DbSet<ProductTopping> ProductToppings => Set<ProductTopping>();
 

@@ -1,0 +1,52 @@
+@model CoffeeShop.Models.Product
+@using CoffeeShop.Models
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow" />
+        </div>
+        <div class="col-md-6">
+            <h2>@Model.Name</h2>
+            <p class="text-muted">@Model.Price.ToString("N0") đ</p>
+            <p>@Model.Description</p>
+
+            @if (ViewBag.Toppings != null && ((List<Topping>)ViewBag.Toppings).Count > 0)
+            {
+                <h4 class="mt-4">Topping kèm theo:</h4>
+                <ul>
+                    @foreach (var topping in (List<Topping>)ViewBag.Toppings)
+                    {
+                        <li>@topping.Name - @topping.Price.ToString("N0") đ</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted">Không có topping kèm theo.</p>
+            }
+
+            <!-- Form thêm vào giỏ hàng -->
+            <form method="post" action="/Cart/Add" class="mb-3">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <div class="mb-3 mt-4">
+                    <label for="quantity" class="form-label">Số lượng:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control w-25" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
+            </form>
+
+            <!-- Form mua ngay -->
+            <form method="post" action="/Cart/BuyNow">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="hidden" name="quantity" value="1" />
+                <button type="submit" class="btn btn-success">Mua ngay</button>
+            </form>
+        </div>
+    </div>
+</div>
