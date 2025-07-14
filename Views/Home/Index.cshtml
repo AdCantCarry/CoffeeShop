@@ -25,7 +25,7 @@
             {
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow">
-                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                       <img src="@item.Images?.FirstOrDefault()?.ImageUrl" class="card-img-top" alt="@item.Name">
                         <div class="card-body">
                             <h5 class="card-title">@item.Name</h5>
                             <p class="card-text">@item.Price.ToString("N0") đ</p>

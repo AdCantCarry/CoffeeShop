@@ -15,21 +15,28 @@ namespace CoffeeShop.Middlewares
         public async Task InvokeAsync(HttpContext context)
         {
             var path = context.Request.Path.Value?.ToLower();
-
+            
+            // Nếu đang truy cập trang login và đã có role, thì redirect theo vai trò
             if (path == "/account/login")
             {
                 var role = context.Session.GetString("Role");
 
-                if (role == "Admin")
+                if (!string.IsNullOrEmpty(role))
                 {
-                    context.Response.Redirect("/AdminDashboard/Index");
-                    return;
-                }
-
-                if (role == "User")
-                {
-                    context.Response.Redirect("/Home/Index");
-                    return;
+                    switch (role)
+                    {
+                        case "Admin":
+                            context.Response.Redirect("/AdminDashboard/Index");
+                            return;
+                        case "User":
+                            context.Response.Redirect("/Home/Index");
+                            return;
+                        default:
+                            // Nếu có role không hợp lệ thì xóa session và cho vào lại login
+                            context.Session.Remove("Role");
+                            context.Response.Redirect("/Account/Login");
+                            return;
+                    }
                 }
             }
 

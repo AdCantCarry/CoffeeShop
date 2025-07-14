@@ -1,16 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+namespace CoffeeShop.Models;
 
-namespace CoffeeShop.Models
+public class Category
 {
-    public class Category
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
 
-        [Required]
-        [Display(Name = "Tên danh mục")]
-        public string Name { get; set; } = string.Empty;
-
-        // Navigation property
-        public ICollection<Product> Products { get; set; } = new List<Product>();
-    }
+    public ICollection<Product>? Products { get; set; }
 }

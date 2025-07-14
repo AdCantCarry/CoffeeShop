@@ -3,36 +3,34 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<CoffeeShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor(); // cần nếu dùng session trong service
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();
-app.UseAuthorization();
-app.UseSession(); // phải có
+
+app.UseSession(); // session phải nằm trước middleware custom
 app.UseMiddleware<CoffeeShop.Middlewares.AuthRedirectMiddleware>();
+
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Gọi seed dữ liệu
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<CoffeeShopDbContext>();
-    if (!db.Users.Any())
-    {
-        db.Users.AddRange(
-            new User { Username = "admin", Password = "123", Role = "Admin" },
-            new User { Username = "user", Password = "123", Role = "User" }
-        );
-        db.SaveChanges();
-    }
+    var services = scope.ServiceProvider;
+    SeedData.Initialize(services); // gọi seed toàn bộ dữ liệu
 }
-app.UseStaticFiles(); // Cho phép dùng file tĩnh như CSS
 
 app.Run();
