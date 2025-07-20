@@ -31,12 +31,13 @@
                 {
                     <tr>
                         <td style="width:100px">
-                            <img src="@(item.ImageUrl ?? "/images/default-coffee.jpg")" alt="@item.ProductName" class="img-fluid rounded" />
+                            <img src="@(item.ImageUrl ?? "/images/default-coffee.jpg")" alt="@item.ProductName"
+                                class="img-fluid rounded" />
                         </td>
                         <td>@item.ProductName</td>
                         <td>@item.Price.ToString("N0").Replace(",", ".") đ</td>
                         <td>@item.Quantity</td>
-                        <td>@(item.Price * item.Quantity).ToString("N0").Replace(",", ".") đ</td>
+                        <td>@(item.Price* item.Quantity).ToString("N0").Replace(",", ".") đ</td>
                         <td>
                             <a class="btn btn-danger btn-sm" href="/Cart/Remove/@item.ProductId">Xóa</a>
                         </td>
@@ -48,7 +49,8 @@
         <div class="text-end">
             <h5>Tổng cộng: <span class="text-danger fw-bold">@total.ToString("N0").Replace(",", ".") đ</span></h5>
             <a href="/Cart/Clear" class="btn btn-outline-danger me-2">Xóa hết</a>
-            <a href="#" class="btn btn-success">Thanh toán</a>
+            <a href="/Order/Checkout" class="btn btn-success">Tiến hành thanh toán</a>
         </div>
+
     }
 </div>

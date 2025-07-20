@@ -8,71 +8,80 @@ namespace CoffeeShop.Models
     public static class SeedData
     {
         public static void Initialize(IServiceProvider serviceProvider)
-{
-    using var context = new CoffeeShopDbContext(
-        serviceProvider.GetRequiredService<DbContextOptions<CoffeeShopDbContext>>());
+        {
+            using var context = new CoffeeShopDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<CoffeeShopDbContext>>());
 
-    // Clear tất cả data cũ nếu muốn
-    context.Users.RemoveRange(context.Users);
-    context.Categories.RemoveRange(context.Categories);
-    context.Products.RemoveRange(context.Products);
-    context.Toppings.RemoveRange(context.Toppings);
-    context.ProductToppings.RemoveRange(context.ProductToppings);
-    context.PaymentMethods.RemoveRange(context.PaymentMethods);
-    context.Articles.RemoveRange(context.Articles);
-    context.ArticleCategories.RemoveRange(context.ArticleCategories);
-    context.SaveChanges(); // Xóa xong rồi mới seed
+            // Nếu đã có dữ liệu, không seed lại
+            if (context.Users.Any() || context.Products.Any()) return;
 
-    // Users
-    context.Users.AddRange(
-        new User { Username = "admin", Password = "admin123", Role = "Admin", FullName = "Admin User" },
-        new User { Username = "user1", Password = "user123", Role = "User", FullName = "Regular User" }
-    );
+            // Users
+            context.Users.AddRange(
+                new User { Username = "admin", Password = "admin123", Role = "Admin", FullName = "Admin User" },
+                new User { Username = "user1", Password = "user123", Role = "User", FullName = "Regular User" }
+            );
 
-    // Categories
-    var category = new Category { Name = "Coffee" };
-    context.Categories.Add(category);
+            // Categories
+            var category = new Category { Name = "Coffee" };
+            context.Categories.Add(category);
 
-    // Products
-    var product = new Product
-    {
-        Name = "Cà phê sữa đá",
-        Description = "Cà phê Việt Nam truyền thống",
-        Price = 25000,
-        Category = category
-    };
-    context.Products.Add(product);
+            // Products - Thêm 3 sản phẩm mẫu
+            var product1 = new Product
+            {
+                Name = "Cà phê sữa đá",
+                Description = "Cà phê Việt Nam truyền thống",
+                Price = 25000,
+                Category = category
+            };
 
-    // Toppings
-    var topping = new Topping { Name = "Thạch cà phê", Price = 5000 };
-    context.Toppings.Add(topping);
+            var product2 = new Product
+            {
+                Name = "Bạc xỉu",
+                Description = "Thức uống nhẹ nhàng với sữa nhiều hơn cà phê",
+                Price = 30000,
+                Category = category
+            };
 
-    // ProductTopping
-    context.ProductToppings.Add(new ProductTopping
-    {
-        Product = product,
-        Topping = topping
-    });
+            var product3 = new Product
+            {
+                Name = "Espresso",
+                Description = "Cà phê Ý đậm đặc",
+                Price = 35000,
+                Category = category
+            };
 
-    // Payment Methods
-    context.PaymentMethods.AddRange(
-        new PaymentMethod { Name = "COD", Provider = "Cash" },
-        new PaymentMethod { Name = "VNPAY", Provider = "VNPAY" },
-        new PaymentMethod { Name = "MOMO", Provider = "MOMO" }
-    );
+            context.Products.AddRange(product1, product2, product3);
 
-    // Articles
-    var newsCat = new ArticleCategory { Name = "Cà phê kiến thức" };
-    context.ArticleCategories.Add(newsCat);
-    context.Articles.Add(new Article
-    {
-        Title = "Nguồn gốc cà phê Việt Nam",
-        Content = "Bài viết chi tiết về nguồn gốc cà phê...",
-        Category = newsCat
-    });
+            // Toppings
+            var topping = new Topping { Name = "Thạch cà phê", Price = 5000 };
+            context.Toppings.Add(topping);
 
-    context.SaveChanges();
-}
+            // ProductTopping
+            context.ProductToppings.Add(new ProductTopping
+            {
+                Product = product1,
+                Topping = topping
+            });
 
+            // Payment Methods
+            context.PaymentMethods.AddRange(
+                new PaymentMethod { Name = "COD", Provider = "Cash" },
+                new PaymentMethod { Name = "VNPAY", Provider = "VNPAY" },
+                new PaymentMethod { Name = "MOMO", Provider = "MOMO" },
+                new PaymentMethod { Name = "PAYPAL", Provider = "PAYPAL" }
+            );
+
+            // Articles
+            var newsCat = new ArticleCategory { Name = "Cà phê kiến thức" };
+            context.ArticleCategories.Add(newsCat);
+            context.Articles.Add(new Article
+            {
+                Title = "Nguồn gốc cà phê Việt Nam",
+                Content = "Bài viết chi tiết về nguồn gốc cà phê...",
+                Category = newsCat
+            });
+
+            context.SaveChanges();
+        }
     }
 }

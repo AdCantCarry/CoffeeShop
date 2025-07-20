@@ -34,10 +34,17 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Gọi seed dữ liệu
+// Gọi seed dữ liệu nếu chưa có dữ liệu
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    SeedData.Initialize(services);
+    var context = services.GetRequiredService<CoffeeShopDbContext>();
+
+    // Chỉ seed nếu chưa có sản phẩm nào
+    if (!context.Products.Any())
+    {
+        SeedData.Initialize(services);
+    }
 }
 
 app.Run();

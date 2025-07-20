@@ -36,17 +36,20 @@
                 <input type="hidden" name="productId" value="@Model.Id" />
                 <div class="mb-3 mt-4">
                     <label for="quantity" class="form-label">Số lượng:</label>
-                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control w-25" required />
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control w-25"
+                        required />
                 </div>
                 <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
             </form>
 
             <!-- Form mua ngay -->
-            <form method="post" action="/Cart/BuyNow">
+            <form method="post" action="/Cart/Add">
                 <input type="hidden" name="productId" value="@Model.Id" />
                 <input type="hidden" name="quantity" value="1" />
+                <input type="hidden" name="action" value="buy" />
                 <button type="submit" class="btn btn-success">Mua ngay</button>
             </form>
+
         </div>
     </div>
 </div>

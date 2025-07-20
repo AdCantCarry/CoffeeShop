@@ -1,0 +1,47 @@
+@model List<CoffeeShop.Models.CartItem>
+@{
+    ViewData["Title"] = "Thanh toán";
+    var total = ViewBag.Total;
+    var methods = ViewBag.PaymentMethods as List<CoffeeShop.Models.PaymentMethod>;
+}
+
+<h2>Thanh toán</h2>
+
+<form asp-action="Checkout" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price.ToString("N0") đ</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Price * item.Quantity).ToString("N0") đ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="mb-3">
+        <label>Phương thức thanh toán:</label><br />
+        @foreach (var m in methods)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" value="@m.Name" checked="@(m.Name == "COD")" />
+                <label class="form-check-label">@m.Name (@m.Provider)</label>
+            </div>
+        }
+    </div>
+
+    <h4>Tổng cộng: <strong>@total.ToString("N0") đ</strong></h4>
+
+    <button type="submit" class="btn btn-primary">Đặt hàng</button>
+</form>

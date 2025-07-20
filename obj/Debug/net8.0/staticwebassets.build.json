@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "YGkZuK/aFwumhRqCeLilNT2pakHRk0RwT+M1I0lkJak=",
+  "Hash": "pe5zTNv6S0SWhAs4QZNyHJNlyhCx2x+6mlaYNlXw3tw=",
   "Source": "CoffeeShop",
   "BasePath": "_content/CoffeeShop",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Acer\\CoffeeShop\\CoffeeShop\\wwwroot\\images\\0bf8b698-f85d-4eb1-8b1a-5f4c3de9d826.jpg",
+      "SourceId": "CoffeeShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Acer\\CoffeeShop\\CoffeeShop\\wwwroot\\",
+      "BasePath": "_content/CoffeeShop",
+      "RelativePath": "images/0bf8b698-f85d-4eb1-8b1a-5f4c3de9d826.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\0bf8b698-f85d-4eb1-8b1a-5f4c3de9d826.jpg"
     },
     {
       "Identity": "C:\\Users\\Acer\\CoffeeShop\\CoffeeShop\\wwwroot\\images\\16378be3-cb8f-4aec-84e6-cbab4e1ae5cc.jpg",
@@ -300,6 +319,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\b9b88e07-085a-488c-8aa5-4108089e110e.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Acer\\CoffeeShop\\CoffeeShop\\wwwroot\\images\\e4508b0f-cd41-408e-9840-15cc7fb40b29.jpg",
+      "SourceId": "CoffeeShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Acer\\CoffeeShop\\CoffeeShop\\wwwroot\\",
+      "BasePath": "_content/CoffeeShop",
+      "RelativePath": "images/e4508b0f-cd41-408e-9840-15cc7fb40b29.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\e4508b0f-cd41-408e-9840-15cc7fb40b29.jpg"
     },
     {
       "Identity": "C:\\Users\\Acer\\CoffeeShop\\CoffeeShop\\wwwroot\\images\\e9b690b1-b04c-4ed2-862e-f0e9096528c3.jpg",

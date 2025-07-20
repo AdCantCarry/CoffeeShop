@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "HMn2j65DOU3MjIUbwHsF1J8ECpKwJUI+3YAbnUeMUpDOw+5nPjZ9t9OjOCkXlPApHwMCv3kC2VsPSfXtPVka4w==",
+  "dgSpecHash": "PqnCZ0GyHNOyjokc/nUIzDT2Z7WAI06ZpbWwABZKxsdFysWJF0IKKwmXtQGZDHbxW29UppnyliMrCxcXnS9KKQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Acer\\CoffeeShop\\CoffeeShop\\CoffeeShop.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,8 @@
     "C:\\Users\\Acer\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
+    "C:\\Users\\Acer\\.nuget\\packages\\paypalcheckoutsdk\\1.0.4\\paypalcheckoutsdk.1.0.4.nupkg.sha512",
+    "C:\\Users\\Acer\\.nuget\\packages\\paypalhttp\\1.0.1\\paypalhttp.1.0.1.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\system.composition\\6.0.0\\system.composition.6.0.0.nupkg.sha512",
