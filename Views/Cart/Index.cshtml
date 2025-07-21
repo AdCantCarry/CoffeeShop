@@ -1,26 +1,25 @@
 @model List<CoffeeShop.Models.CartItem>
+
 @{
     ViewData["Title"] = "Giỏ hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var total = Model.Sum(item => item.Price * item.Quantity);
 }
 
-<div class="container my-5">
-    <h2 class="mb-4">Giỏ hàng của bạn</h2>
+<div class="container mt-5">
+    <h2>Giỏ hàng của bạn</h2>
 
     @if (!Model.Any())
     {
-        <div class="alert alert-info">Giỏ hàng của bạn đang trống.</div>
+        <div class="alert alert-warning">Giỏ hàng trống.</div>
     }
     else
     {
-        <table class="table table-bordered">
-            <thead class="table-dark">
+        <table class="table table-bordered mt-3">
+            <thead>
                 <tr>
-                    <th>Ảnh</th>
+                    <th>Hình ảnh</th>
                     <th>Tên sản phẩm</th>
-                    <th>Đơn giá</th>
+                    <th>Giá</th>
                     <th>Số lượng</th>
                     <th>Thành tiền</th>
                     <th></th>
@@ -30,16 +29,13 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td style="width:100px">
-                            <img src="@(item.ImageUrl ?? "/images/default-coffee.jpg")" alt="@item.ProductName"
-                                class="img-fluid rounded" />
-                        </td>
+                        <td><img src="@item.ImageUrl" width="80" /></td>
                         <td>@item.ProductName</td>
-                        <td>@item.Price.ToString("N0").Replace(",", ".") đ</td>
+                        <td>@item.Price.ToString("N0") đ</td>
                         <td>@item.Quantity</td>
-                        <td>@(item.Price* item.Quantity).ToString("N0").Replace(",", ".") đ</td>
+                        <td>@(item.Price * item.Quantity).ToString("N0") đ</td>
                         <td>
-                            <a class="btn btn-danger btn-sm" href="/Cart/Remove/@item.ProductId">Xóa</a>
+                            <a href="/Cart/Remove/@item.ProductId" class="btn btn-sm btn-danger">Xóa</a>
                         </td>
                     </tr>
                 }
@@ -47,10 +43,8 @@
         </table>
 
         <div class="text-end">
-            <h5>Tổng cộng: <span class="text-danger fw-bold">@total.ToString("N0").Replace(",", ".") đ</span></h5>
-            <a href="/Cart/Clear" class="btn btn-outline-danger me-2">Xóa hết</a>
-            <a href="/Order/Checkout" class="btn btn-success">Tiến hành thanh toán</a>
+            <a href="/Cart/Clear" class="btn btn-outline-danger">Xóa tất cả</a>
+            <a href="/Order/Checkout" class="btn btn-success">Thanh toán COD</a>
         </div>
-
     }
 </div>

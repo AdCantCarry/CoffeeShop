@@ -1,47 +1,38 @@
 @model List<CoffeeShop.Models.CartItem>
+
 @{
-    ViewData["Title"] = "Thanh toán";
-    var total = ViewBag.Total;
-    var methods = ViewBag.PaymentMethods as List<CoffeeShop.Models.PaymentMethod>;
+    ViewData["Title"] = "Xác nhận đặt hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal total = Model.Sum(item => item.Price * item.Quantity);
 }
 
-<h2>Thanh toán</h2>
+<h2>Xác nhận đơn hàng</h2>
 
-<form asp-action="Checkout" method="post">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.Price.ToString("N0") đ</td>
-                    <td>@item.Quantity</td>
-                    <td>@(item.Price * item.Quantity).ToString("N0") đ</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <div class="mb-3">
-        <label>Phương thức thanh toán:</label><br />
-        @foreach (var m in methods)
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
         {
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="paymentMethod" value="@m.Name" checked="@(m.Name == "COD")" />
-                <label class="form-check-label">@m.Name (@m.Provider)</label>
-            </div>
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Price.ToString("N0") đ</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Price * item.Quantity).ToString("N0") đ</td>
+            </tr>
         }
-    </div>
+    </tbody>
+</table>
 
-    <h4>Tổng cộng: <strong>@total.ToString("N0") đ</strong></h4>
+<h4>Tổng cộng: <strong>@total.ToString("N0") đ</strong></h4>
 
-    <button type="submit" class="btn btn-primary">Đặt hàng</button>
+<form method="post" asp-action="Checkout">
+    <input type="hidden" name="totalAmount" value="@total" />
+    <button type="submit" class="btn btn-success">Xác nhận đặt hàng (COD)</button>
 </form>

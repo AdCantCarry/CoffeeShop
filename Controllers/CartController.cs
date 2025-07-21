@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CoffeeShop.Models;
-using CoffeeShop.Helpers;
-using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace CoffeeShop.Controllers
 {
@@ -14,62 +13,37 @@ namespace CoffeeShop.Controllers
             _context = context;
         }
 
-        // GET: /Cart
         public IActionResult Index()
         {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-
-            // Tính tổng tiền
-            ViewBag.Total = cart.Sum(c => c.Price * c.Quantity);
+            var cartJson = HttpContext.Session.GetString("Cart");
+            var cart = string.IsNullOrEmpty(cartJson)
+                ? new List<CartItem>()
+                : JsonConvert.DeserializeObject<List<CartItem>>(cartJson);
 
             return View(cart);
         }
 
-        // POST: /Cart/Add
-        [HttpPost]
-        public IActionResult Add(int productId, int quantity, string action)
+        public IActionResult AddToCart(int id)
         {
-            if (!User.Identity.IsAuthenticated)
+            // ✅ Kiểm tra đã đăng nhập hay chưa
+            if (HttpContext.Session.GetString("Username") == null)
             {
-                // Lưu thông tin tạm thời vào TempData để xử lý sau khi đăng nhập
-                TempData["PendingAddProductId"] = productId;
-                TempData["PendingAddQuantity"] = quantity;
-                TempData["PendingAddAction"] = action;
-                return RedirectToAction("Login", "Account");
+                // Chuyển hướng sang trang đăng nhập kèm returnUrl
+                return RedirectToAction("Login", "Account", new { returnUrl = $"/Cart/AddToCart/{id}" });
             }
 
-            return ProcessAdd(productId, quantity, action);
-        }
+            var product = _context.Products.FirstOrDefault(p => p.Id == id);
+            if (product == null) return NotFound();
 
-        // Sau khi login xong, chuyển hướng về đây để thêm lại sản phẩm
-        public IActionResult AddAfterLogin()
-        {
-            if (TempData["PendingAddProductId"] != null && TempData["PendingAddQuantity"] != null)
+            var cartJson = HttpContext.Session.GetString("Cart");
+            var cart = string.IsNullOrEmpty(cartJson)
+                ? new List<CartItem>()
+                : JsonConvert.DeserializeObject<List<CartItem>>(cartJson);
+
+            var existing = cart.FirstOrDefault(c => c.ProductId == id);
+            if (existing != null)
             {
-                int productId = (int)TempData["PendingAddProductId"];
-                int quantity = (int)TempData["PendingAddQuantity"];
-                string action = TempData["PendingAddAction"]?.ToString() ?? "add";
-
-                return ProcessAdd(productId, quantity, action);
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        private IActionResult ProcessAdd(int productId, int quantity, string action)
-        {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-
-            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            var existingItem = cart.FirstOrDefault(c => c.ProductId == productId);
-            if (existingItem != null)
-            {
-                existingItem.Quantity += quantity;
+                existing.Quantity += 1;
             }
             else
             {
@@ -77,44 +51,33 @@ namespace CoffeeShop.Controllers
                 {
                     ProductId = product.Id,
                     ProductName = product.Name,
-                    ImageUrl = product.ImageUrl,
+                    ImageUrl = product.ImageUrl ?? "",
                     Price = product.Price,
-                    Quantity = quantity
+                    Quantity = 1
                 });
             }
 
-            HttpContext.Session.SetObjectAsJson("Cart", cart);
-
-            if (action == "buy")
-            {
-                return RedirectToAction("Index");
-            }
-
-            return RedirectToAction("Details", "Home", new { id = productId });
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+            return RedirectToAction("Index");
         }
 
-        // GET: /Cart/Remove/5
         public IActionResult Remove(int id)
         {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+            var cartJson = HttpContext.Session.GetString("Cart");
+            var cart = string.IsNullOrEmpty(cartJson)
+                ? new List<CartItem>()
+                : JsonConvert.DeserializeObject<List<CartItem>>(cartJson);
+
             var item = cart.FirstOrDefault(c => c.ProductId == id);
             if (item != null)
             {
                 cart.Remove(item);
+                HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
             }
 
-            HttpContext.Session.SetObjectAsJson("Cart", cart);
             return RedirectToAction("Index");
         }
-        [HttpGet]
-        public IActionResult CartCount()
-        {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            int count = cart.Sum(c => c.Quantity);
-            return Json(count);
-        }
 
-        // GET: /Cart/Clear
         public IActionResult Clear()
         {
             HttpContext.Session.Remove("Cart");

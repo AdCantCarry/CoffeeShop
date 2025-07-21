@@ -15,6 +15,7 @@
             <h3 class="text-center mb-4">Đăng nhập CoffeeShop</h3>
 
             <form asp-action="Login" method="post">
+                <input type="hidden" name="returnUrl" value="@Context.Request.Query["returnUrl"]" />
                 <div class="form-group mb-3">
                     <input type="text" name="Username" class="form-control" placeholder="Tên đăng nhập" required />
                 </div>

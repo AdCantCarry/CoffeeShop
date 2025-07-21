@@ -31,25 +31,21 @@
                 <p class="text-muted">Không có topping kèm theo.</p>
             }
 
-            <!-- Form thêm vào giỏ hàng -->
-            <form method="post" action="/Cart/Add" class="mb-3">
-                <input type="hidden" name="productId" value="@Model.Id" />
-                <div class="mb-3 mt-4">
-                    <label for="quantity" class="form-label">Số lượng:</label>
-                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control w-25"
-                        required />
-                </div>
-                <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
-            </form>
-
-            <!-- Form mua ngay -->
+            <!-- Thêm vào giỏ hàng -->
             <form method="post" action="/Cart/Add">
                 <input type="hidden" name="productId" value="@Model.Id" />
                 <input type="hidden" name="quantity" value="1" />
-                <input type="hidden" name="action" value="buy" />
-                <button type="submit" class="btn btn-success">Mua ngay</button>
+                <input type="hidden" name="action" value="add" />
+                <button type="submit" class="btn btn-outline-dark w-100">🛒 Thêm vào giỏ hàng</button>
             </form>
 
+            <!-- Mua ngay -->
+            <form method="post" action="/Cart/Add" class="mt-2">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="hidden" name="quantity" value="1" />
+                <input type="hidden" name="action" value="buy" />
+                <button type="submit" class="btn btn-success w-100">💳 Mua ngay</button>
+            </form>
         </div>
     </div>
 </div>

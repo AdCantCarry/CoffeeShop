@@ -26,27 +26,30 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(string username, string password)
+    public IActionResult Login(string username, string password, string? returnUrl)
     {
         var user = _context.Users.FirstOrDefault(u =>
             u.Username == username && u.Password == password);
 
         if (user != null)
         {
-            // Lưu phiên đăng nhập
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetString("Role", user.Role);
 
-            // Điều hướng theo vai trò
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
             return user.Role == "Admin"
-                ? RedirectToAction("Index", "AdminDashboard") // ✅ Sửa ở đây
+                ? RedirectToAction("Index", "AdminDashboard")
                 : RedirectToAction("Index", "Home");
         }
 
-        // Báo lỗi nếu sai tài khoản hoặc mật khẩu
         ViewBag.Error = "⚠ Sai tài khoản hoặc mật khẩu.";
         return View();
     }
+
 
     public IActionResult Logout()
     {

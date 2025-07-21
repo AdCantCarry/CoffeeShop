@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using CoffeeShop.Models;
-using CoffeeShop.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace CoffeeShop.Controllers
@@ -17,78 +16,62 @@ namespace CoffeeShop.Controllers
         [HttpGet]
         public IActionResult Checkout()
         {
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            if (!cart.Any())
+            var cartJson = HttpContext.Session.GetString("Cart");
+            if (string.IsNullOrEmpty(cartJson))
             {
-                TempData["Error"] = "Giỏ hàng trống!";
+                TempData["Error"] = "Giỏ hàng của bạn đang trống.";
                 return RedirectToAction("Index", "Cart");
             }
 
-            ViewBag.PaymentMethods = _context.PaymentMethods.ToList();
-            ViewBag.Total = cart.Sum(i => i.Price * i.Quantity);
+            var cart = JsonConvert.DeserializeObject<List<CartItem>>(cartJson);
             return View(cart);
         }
 
         [HttpPost]
-        public IActionResult Checkout(string paymentMethod = "COD")
+        public IActionResult Checkout(decimal totalAmount)
         {
-            var userJson = HttpContext.Session.GetString("User");
-            if (userJson == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            var cartJson = HttpContext.Session.GetString("Cart");
+            var cart = JsonConvert.DeserializeObject<List<CartItem>>(cartJson ?? "[]");
 
-            var user = JsonConvert.DeserializeObject<User>(userJson);
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart");
-            if (cart == null || !cart.Any())
+            if (cart.Count == 0)
             {
-                TempData["Error"] = "Giỏ hàng trống!";
+                TempData["Error"] = "Giỏ hàng trống.";
                 return RedirectToAction("Index", "Cart");
             }
 
-            decimal total = cart.Sum(item => item.Quantity * item.Price);
+            // Mặc định gán UserId = 1 nếu chưa có Auth
+            int userId = int.TryParse(User.Identity?.Name, out var id) ? id : 1;
 
             var order = new Order
             {
-                UserId = user.Id,
+                UserId = userId,
                 OrderDate = DateTime.Now,
-                TotalAmount = total,
-                Status = "Pending"
+                TotalAmount = totalAmount,
+                Status = "Pending",
+                OrderItems = cart.Select(c => new OrderItem
+                {
+                    ProductId = c.ProductId,
+                    Quantity = c.Quantity,
+                    UnitPrice = c.Price
+                }).ToList()
             };
+
             _context.Orders.Add(order);
             _context.SaveChanges();
-
-            foreach (var item in cart)
-            {
-                var orderItem = new OrderItem
-                {
-                    OrderId = order.Id,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    UnitPrice = item.Price
-                };
-                _context.OrderItems.Add(orderItem);
-            }
-
-            var method = _context.PaymentMethods.FirstOrDefault(p => p.Name == paymentMethod);
-            if (method == null)
-            {
-                TempData["Error"] = "Phương thức thanh toán không hợp lệ!";
-                return RedirectToAction("Checkout");
-            }
 
             var payment = new Payment
             {
                 OrderId = order.Id,
-                PaymentMethodId = method.Id,
-                Amount = total,
-                Status = "Pending"
+                PaymentMethodId = _context.PaymentMethods.FirstOrDefault(p => p.Name == "COD")?.Id ?? 1,
+                Status = "Pending",
+                Amount = totalAmount,
+                PaidAt = DateTime.Now
             };
             _context.Payments.Add(payment);
             _context.SaveChanges();
 
             HttpContext.Session.Remove("Cart");
-            TempData["Success"] = "Đặt hàng thành công!";
+
             return RedirectToAction("Success");
         }
 

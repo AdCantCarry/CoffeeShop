@@ -65,7 +65,7 @@ namespace CoffeeShop.Models
 
             // Payment Methods
             context.PaymentMethods.AddRange(
-                new PaymentMethod { Name = "COD", Provider = "Cash" },
+                new PaymentMethod { Name = "COD", Provider = "Cash on Delivery" },
                 new PaymentMethod { Name = "VNPAY", Provider = "VNPAY" },
                 new PaymentMethod { Name = "MOMO", Provider = "MOMO" },
                 new PaymentMethod { Name = "PAYPAL", Provider = "PAYPAL" }

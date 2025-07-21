@@ -35,13 +35,7 @@
 
                             <div class="mt-auto d-flex justify-content-between">
                                 <a href="/Home/Details/@item.Id" class="btn btn-outline-secondary btn-sm">Chi tiết</a>
-                              <form method="post" action="/Cart/Add">
-    <input type="hidden" name="productId" value="@item.Id" />
-    <input type="hidden" name="quantity" value="1" />
-    <input type="hidden" name="action" value="buy" />
-    <button type="submit" class="btn btn-primary btn-sm">Mua ngay</button>
-</form>
-
+                                <a href="/Cart/AddToCart/@item.Id" class="btn btn-primary btn-sm">Mua ngay</a>
                             </div>
                         </div>
                     </div>
